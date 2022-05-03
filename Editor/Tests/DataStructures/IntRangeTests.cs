@@ -9,16 +9,16 @@ using UnityEngine;
 using UnityEngine.TestTools;
 
 namespace Tests {
-	public class FloatRangeTests {
+	public class IntRangeTests {
 		[Test]
 		public void Clamp() {
-			TestClamp(new FloatRange(5, 10));
-			TestClamp(new FloatRangeValue(5, 10));
-			TestClamp(new FloatRange(-10, 10));
-			TestClamp(new FloatRangeValue(-10, 10));
+			TestClamp(new IntRange(5, 10));
+			TestClamp(new IntRangeValue(5, 10));
+			TestClamp(new IntRange(-10, 10));
+			TestClamp(new IntRangeValue(-10, 10));
 		}
 
-		private void TestClamp(IReadOnlyFloatRange range) {
+		private void TestClamp(IReadOnlyIntRange range) {
 			Assert.AreEqual(range.Clamp(range.Min - 1), range.Min);
 			Assert.AreEqual(range.Clamp(range.Max + 1), range.Max);
 			Assert.AreEqual(range.Clamp(range.Mid), range.Mid);
@@ -26,19 +26,19 @@ namespace Tests {
 
 		[Test]
 		public void Normalize() {
-			FloatRange range = new FloatRange(0, 20);
+			IntRange range = new IntRange(0, 20);
 			TestNormalize1(range);
-			FloatRangeValue rangeValue = new FloatRangeValue(0, 20);
+			IntRangeValue rangeValue = new IntRangeValue(0, 20);
 			TestNormalize1(rangeValue);
 
-			range = new FloatRange(-20, 5);
-			rangeValue = new FloatRangeValue(-20, 5);
+			range = new IntRange(-20, 5);
+			rangeValue = new IntRangeValue(-20, 5);
 
 			TestNormalize2(range);
 			TestNormalize2(rangeValue);
 		}
 
-		private void TestNormalize1(IReadOnlyFloatRange range) {
+		private void TestNormalize1(IReadOnlyIntRange range) {
 			Assert.IsTrue(range.Normalize(-5, true) == 0);
 			Assert.IsTrue(range.Normalize(-5, false) == -.25f);
 			Assert.IsTrue(range.Normalize(5, true) == .25f);
@@ -51,7 +51,7 @@ namespace Tests {
 			Assert.IsTrue(range.Normalize(25, false) == 1.25);
 		}	
 		
-		private void TestNormalize2(IReadOnlyFloatRange range) {
+		private void TestNormalize2(IReadOnlyIntRange range) {
 			Assert.IsTrue(range.Normalize(0, true) == .8f);
 			Assert.IsTrue(range.Normalize(0, false) == .8f);
 			Assert.IsTrue(range.Normalize(-20, true) == 0f);
@@ -66,13 +66,13 @@ namespace Tests {
 
 		[Test]
 		public void Contains() {
-			FloatRange range = new FloatRange(-15, 20);
-			FloatRangeValue rangeValue = new FloatRangeValue(-15, 20);
+			IntRange range = new IntRange(-15, 20);
+			IntRangeValue rangeValue = new IntRangeValue(-15, 20);
 			TestContains(range);
 			TestContains(rangeValue);
 		}
 
-		private void TestContains(IReadOnlyFloatRange range) {
+		private void TestContains(IReadOnlyIntRange range) {
 			Assert.IsTrue(range.Contains(-15));
 			Assert.IsTrue(range.Contains(-10));
 			Assert.IsTrue(range.Contains(0));
@@ -85,13 +85,13 @@ namespace Tests {
 
 		[Test]
 		public void Lerp() {
-			FloatRange range = new FloatRange(-20, 20);
+			IntRange range = new IntRange(-20, 20);
 			TestLerp(range);
-			FloatRangeValue rangeValue = new FloatRangeValue(-20, 20);
+			IntRangeValue rangeValue = new IntRangeValue(-20, 20);
 			TestLerp(rangeValue);
 		}
 
-		private void TestLerp(IReadOnlyFloatRange range) {
+		private void TestLerp(IReadOnlyIntRange range) {
 			Assert.IsTrue(range.Lerp(0) == -20);
 			Assert.IsTrue(range.Lerp(.25f) == -10);
 			Assert.IsTrue(range.Lerp(.5f) == 0);
@@ -101,24 +101,24 @@ namespace Tests {
 
 		[Test]
 		public void Operators() {
-			Assert.IsTrue(new FloatRange(22, 33).Equals(new FloatRange(22, 33)));
-			Assert.IsFalse(new FloatRange(22, 33).Equals(new FloatRange(-22, 33)));
+			Assert.IsTrue(new IntRange(22, 33).Equals(new IntRange(22, 33)));
+			Assert.IsFalse(new IntRange(22, 33).Equals(new IntRange(-22, 33)));
 		}
 
 		[Test]
 		public void ValueAndEquality() {
-			FloatRange range = new FloatRange(-3.33f, 39.4f);
-			Assert.AreEqual(range.Value, new FloatRangeValue(-3.33f, 39.4f));
-			Assert.IsTrue(range.Value == new FloatRangeValue(-3.33f, 39.4f));
-			Assert.IsTrue(range.Value.Equals(new FloatRangeValue(-3.33f, 39.4f)));
+			IntRange range = new IntRange(-3, 39);
+			Assert.AreEqual(range.Value, new IntRangeValue(-3, 39));
+			Assert.IsTrue(range.Value == new IntRangeValue(-3, 39));
+			Assert.IsTrue(range.Value.Equals(new IntRangeValue(-3, 39)));
 
-			FloatRange range2 = new FloatRange(range.Min, range.Max);
+			IntRange range2 = new IntRange(range.Min, range.Max);
 			Assert.IsTrue(range2.Equals(range));
 
-			range.SetRange(0.1f, 10.7f);
-			Assert.AreEqual(range.Value, new FloatRangeValue(0.1f, 10.7f));
-			range.Value = new FloatRangeValue(15.38f, 160.96f);
-			Assert.AreEqual(range.Value, new FloatRangeValue(15.38f, 160.96f));
+			range.SetRange(0, 10);
+			Assert.AreEqual(range.Value, new IntRangeValue(0, 10));
+			range.Value = new IntRangeValue(15, 160);
+			Assert.AreEqual(range.Value, new IntRangeValue(15, 160));
 		}
 	}
 }
