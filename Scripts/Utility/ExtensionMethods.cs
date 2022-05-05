@@ -1,4 +1,4 @@
-﻿/// ©2018 - 2021 Kevin Foley.
+﻿/// ©2018 - 2022 Kevin Foley.
 /// See accompanying license file.
 
 using System;

@@ -1,3 +1,6 @@
+/// ©2022 Kevin Foley.
+/// See accompanying license file.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
