@@ -10,7 +10,7 @@ using UnityEditor;
 using UnityEngine.Assertions;
 
 namespace OneManEscapePlan.Common.Scripts.Utility {
-
+#if UNITY_EDITOR
 	/// <summary>
 	/// Extend this class for custom Editors that are nested in the class they edit. Just provides
 	/// wrappers for EditorGUILayout without having to import the UnityEditor namespace in your
@@ -46,8 +46,6 @@ namespace OneManEscapePlan.Common.Scripts.Utility {
 	/// 
 	/// </example>
 	public class NestedEditor<T> : Editor where T : UnityEngine.Object {
-
-#if UNITY_EDITOR
 		#region PROPERTIES
 		protected T Instance => target as T;
 		#endregion
@@ -95,6 +93,6 @@ namespace OneManEscapePlan.Common.Scripts.Utility {
 		protected void SetDirty(UnityEngine.Object obj) {
 			EditorUtility.SetDirty(obj);
 		}
-#endif
 	}
+#endif
 }
