@@ -3,6 +3,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace OneManEscapePlan.Common.Scripts.DataStructures {
 
@@ -10,6 +11,8 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		MetersPerSecondSquared,
 		FeetPerSecondSquared
 	}
+
+	[System.Serializable] public class AccelerationEvent : UnityEvent<Acceleration> { }
 
 	[System.Serializable]
 	public struct Acceleration {

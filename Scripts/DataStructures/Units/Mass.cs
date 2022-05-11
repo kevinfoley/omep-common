@@ -3,6 +3,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace OneManEscapePlan.Common.Scripts.DataStructures {
 
@@ -13,6 +14,8 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		LongTons,
 		MetricTons
 	}
+
+	[System.Serializable] public class MassEvent : UnityEvent<Mass> { }
 
 	[System.Serializable]
 	public struct Mass {

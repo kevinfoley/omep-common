@@ -3,6 +3,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace OneManEscapePlan.Common.Scripts.DataStructures {
 
@@ -11,6 +12,8 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		KilometersPerHour,
 		MilesPerHour
 	}
+
+	[System.Serializable] public class SpeedEvent : UnityEvent<Speed> { }
 
 	[System.Serializable]
 	public struct Speed {

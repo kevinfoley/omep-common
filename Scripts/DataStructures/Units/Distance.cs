@@ -3,6 +3,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace OneManEscapePlan.Common.Scripts.DataStructures {
 
@@ -13,6 +14,8 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		Yards,
 		Miles
 	}
+
+	[System.Serializable] public class DistanceEvent : UnityEvent<Distance> { }
 
 	[System.Serializable]
 	public struct Distance {
