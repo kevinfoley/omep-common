@@ -14,6 +14,7 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		float Min { get; }
 		float Mid { get; }
 		float Max { get; }
+		float Size { get; }
 
 		float Clamp(float value);
 		bool Contains(float value);
@@ -42,6 +43,8 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		public float Mid => (min + max) / 2f;
 
 		public float Max => max;
+
+		public float Size => max - min;
 
 		public float Clamp(float value) {
 			return Mathf.Clamp(value, min, max);
@@ -119,20 +122,16 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 			SetRange(min, max);
 		}
 
-		public float Min {
-			get => min;
-		}
+		public float Min => min;
 
 		/// <summary>
 		/// Midpoint between Min and Max
 		/// </summary>
-		public float Mid {
-			get => (min + max) / 2f;
-		}
+		public float Mid => (min + max) / 2f;
 
-		public float Max { 
-			get => max;
-		}
+		public float Max => max;
+
+		public float Size => max - min;
 
 		public FloatRangeValue Value {
 			get => new FloatRangeValue(min, max);
