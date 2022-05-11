@@ -48,10 +48,15 @@ namespace OneManEscapePlan.Common.Scripts.Utility {
 	public class NestedEditor<T> : Editor where T : UnityEngine.Object {
 		#region PROPERTIES
 		protected T Instance => target as T;
+		protected GUIStyle boldLabelStyle => EditorStyles.boldLabel;
 		#endregion
 
 		protected void LabelField(string label) {
 			EditorGUILayout.LabelField(label);
+		}
+		
+		protected void BoldLabelField(string label) {
+			EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
 		}
 
 		protected void LabelField(string label, GUIStyle style) {
@@ -60,6 +65,10 @@ namespace OneManEscapePlan.Common.Scripts.Utility {
 
 		protected void LabelField(string label, string label2) {
 			EditorGUILayout.LabelField(label, label2);
+		}
+		
+		protected void BoldLabelField(string label, string label2) {
+			EditorGUILayout.LabelField(label, label2, EditorStyles.boldLabel);
 		}
 
 		protected void LabelField(string label, string label2, GUIStyle style) {
