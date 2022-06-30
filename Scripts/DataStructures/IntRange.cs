@@ -24,6 +24,9 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		float Normalize(float value, bool clamp = false);
 	}
 
+	/// <summary>
+	/// Immutable struct representing a range of contiguous integer values, defined by a min and max.
+	/// </summary>
 	[System.Serializable]
 	public struct IntRangeValue : IReadOnlyIntRange {
 		[SerializeField] private int min;
@@ -125,6 +128,9 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		}
 	}
 
+	/// <summary>
+	/// Class representing a range of contiguous float values, defined by a min and a max.
+	/// </summary>
 	[System.Serializable]
 	public class IntRange : IReadOnlyIntRange {
 		[SerializeField] protected int min = 0;
