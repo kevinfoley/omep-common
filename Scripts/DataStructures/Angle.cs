@@ -10,7 +10,8 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 	/// <summary>
 	/// Immutable struct representing an angle, in degrees.
 	/// </summary>
-	public readonly struct Angle {
+	[System.Serializable]
+	public struct Angle {
 		#region STATIC
 		public static Angle FromRadians(float rads) {
 			return new Angle(rads * Mathf.Rad2Deg);
@@ -21,7 +22,7 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		public static Angle West => new Angle(270);
 		#endregion
 
-		private readonly float rawDegrees;
+		[SerializeField] private float rawDegrees;
 
 		public Angle(float degrees = 0) {
 			this.rawDegrees = degrees;
@@ -75,6 +76,9 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		public static Angle operator -(Angle a, Angle b) {
 			return new Angle(a.rawDegrees - b.rawDegrees);
 		}
+		public static Angle operator -(Angle a) {
+			return new Angle(-a.rawDegrees);
+		}
 		#endregion
 
 		/// <summary>
@@ -99,6 +103,18 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 
 		public override string ToString() {
 			return $"{Degrees360:F1}°";
+		}
+
+		public string ToString(string format = "F1") {
+			return Degrees360.ToString(format);
+		}
+
+		public string ToString180(string format = "F1") {
+			return $"{Degrees180.ToString(format)}°";
+		}
+		
+		public string ToString360(string format = "F1") {
+			return $"{Degrees360.ToString(format)}°";
 		}
 
 		public override bool Equals(object obj) {

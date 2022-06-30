@@ -98,6 +98,7 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 	/// <remarks>
 	/// A mutable, reference-type wrapper for AngleRangeValue.
 	/// </remarks>
+	[System.Serializable]
 	public class AngleRange : IReadOnlyAngleRange {
 		[SerializeField] private AngleRangeValue value;
 
