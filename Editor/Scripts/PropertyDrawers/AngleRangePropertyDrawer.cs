@@ -48,9 +48,9 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 				rect.width = (rect.width - indent - 5) / 3f;
 				rect.x += indent;
 
-				minProperty.floatValue = EditorGUI.FloatField(rect, "Min", minProperty.floatValue);
+				minProperty.floatValue = EditorGUI.FloatField(rect, "Start", minProperty.floatValue);
 				rect.x += rect.width + 5;
-				float maxF = EditorGUI.FloatField(rect, "Max", minProperty.floatValue + sizeProperty.floatValue);
+				float maxF = EditorGUI.FloatField(rect, "End", minProperty.floatValue + sizeProperty.floatValue);
 				sizeProperty.floatValue = maxF - minProperty.floatValue;
 				rect.x += rect.width + 5;
 				sizeProperty.floatValue = EditorGUI.FloatField(rect, "Size", sizeProperty.floatValue);

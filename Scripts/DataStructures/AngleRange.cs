@@ -6,9 +6,9 @@ using UnityEngine.Assertions;
 
 namespace OneManEscapePlan.Common.Scripts.DataStructures {
 	public interface IReadOnlyAngleRange {
-		Angle Min { get; }
+		Angle Start { get; }
 		Angle Mid { get; }
-		Angle Max { get; }
+		Angle End { get; }
 		float Size { get; }
 
 		Angle Clamp(Angle value);
@@ -36,13 +36,34 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		/// Create a new AngleRangeValue
 		/// </summary>
 		/// <param name="start">Starting angle</param>
-		/// <param name="size">Size of the range in degrees; must be positive</param>
+		/// <param name="sizeDegrees">Size of the range in degrees; must be positive</param>
 		/// <exception cref="System.ArgumentException"></exception>
+		public AngleRangeValue(Angle start, float sizeDegrees) {
+			if (sizeDegrees < 0) throw new System.ArgumentException($"Size cannot be negative (given {sizeDegrees})");
+			if (sizeDegrees >= 360) {
+				this.start = new Angle(0);
+				this.size = 360;
+			} else {
+				this.start = start;
+				this.size = sizeDegrees;
+			}
+		}
+
+		/// <summary>
+		/// Create a new AngleRangeValue
+		/// </summary>
+		/// <param name="start">Starting angle</param>
+		/// <param name="end">End angle; will be treated as being in the positive direction from <c>start</c></param>
 		/// <remarks>
-		/// <c>size</c> is a float, rather than an Angle, to avoid confusion.
+		/// <c>end</c> is always treated as being clockwise (in the positive direction from)
+		/// <c>start</c>. For example, if we use 20° as the start and 10° as the end, the
+		/// range will cover a 350° arc from 20° to 10°, NOT a 10° arc from 10° to 20°
 		/// </remarks>
-		public AngleRangeValue(Angle start, float size) {
-			if (size < 0) throw new System.ArgumentException($"Size cannot be negative (given {size})");
+		public AngleRangeValue(Angle start, Angle end) {
+			var s = start.Degrees360;
+			var e = end.Degrees360;
+			while (e < s) e += 360;
+			var size = e - s;
 			if (size >= 360) {
 				this.start = new Angle(0);
 				this.size = 360;
@@ -52,17 +73,20 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 			}
 		}
 
-		public Angle Min => start;
+		public Angle Start => start;
 
 		public Angle Mid => start + new Angle(size / 2);
 
-		public Angle Max => start + new Angle(size);
+		public Angle End => start + new Angle(size);
 
+		/// <summary>
+		/// Size of the range (arc), in degrees
+		/// </summary>
 		public float Size => size;
 
 		public Angle Clamp(Angle value) {
 			if (Size >= 360) return value;
-			float min = Min.Degrees360;
+			float min = Start.Degrees360;
 			float mid = min + Size / 2;
 			float v = value.Degrees360;
 			float deltaMid = Mathf.DeltaAngle(v, mid);
@@ -70,8 +94,8 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 			if (Mathf.Abs(deltaMid) <= Size / 2) {
 				return value;
 			}
-			if (deltaMid < 0) return Max;
-			return Min;
+			if (deltaMid < 0) return End;
+			return Start;
 		}
 
 		public bool Contains(Angle value) {
@@ -87,7 +111,7 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		}
 
 		public override string ToString() {
-			return $"({Min}-{Max})";
+			return $"({Start}-{End})";
 		}
 		#endregion
 	}
@@ -106,18 +130,30 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		/// Create a new AngleRange.
 		/// </summary>
 		/// <param name="start">Starting angle</param>
-		/// <param name="size">Size of the range in degrees; must be positive</param>
-		/// <exception cref="System.ArgumentException"></exception>
-		public AngleRange(Angle start, float size) {
-			SetRange(start, size);
+		/// <param name="sizeDegrees">Size of the range in degrees; must be positive</param>
+		/// <exception cref="System.ArgumentException">Thrown if size is negative</exception>
+		public AngleRange(Angle start, float sizeDegrees) {
+			SetRange(start, sizeDegrees);
 		}
 
-		public Angle Min => value.Min;
+		/// <summary>
+		/// Create a new AngleRange.
+		/// </summary>
+		/// <param name="start"></param>
+		/// <param name="end">End angle; will be treated as being in the positive direction from <c>start</c></param>
+		public AngleRange(Angle start, Angle end) {
+			SetRange(start, end);
+		}
+
+		public Angle Start => value.Start;
 
 		public Angle Mid => value.Mid;
 
-		public Angle Max => value.Max;
+		public Angle End => value.End;
 
+		/// <summary>
+		/// Size of the range (arc), in degrees
+		/// </summary>
 		public float Size => value.Size;
 
 		public AngleRangeValue Value { get => value; set => this.value = value; }
@@ -127,8 +163,23 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 		/// </summary>
 		/// <param name="start">Starting angle</param>
 		/// <param name="size">Size of the range in degrees; must be positive</param>
+		/// <exception cref="System.ArgumentException">Thrown if size is negative</exception>
 		public void SetRange(Angle start, float size) {
 			value = new AngleRangeValue(start, size);
+		}
+
+		/// <summary>
+		/// Set the range.
+		/// </summary>
+		/// <param name="start"></param>
+		/// <param name="end">End angle; will be treated as being in the positive direction from <c>start</c></param>
+		/// <remarks>
+		/// <c>end</c> is always treated as being clockwise (in the positive direction from)
+		/// <c>start</c>. For example, if we use 20° as the start and 10° as the end, the
+		/// range will cover a 350° arc from 20° to 10°, NOT a 10° arc from 10° to 20°
+		/// </remarks>
+		public void SetRange(Angle start, Angle end) {
+			value = new AngleRangeValue(start, end);
 		}
 
 		public Angle Clamp(Angle value) {
