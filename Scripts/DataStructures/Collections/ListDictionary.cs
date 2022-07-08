@@ -13,7 +13,7 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 	/// </summary>
 	/// <typeparam name="K"></typeparam>
 	/// <typeparam name="V"></typeparam>
-	public class ListDictionary<K, V> {
+	public class ListDictionary<K, V> : IEnumerable<KeyValuePair<K, List<V>>>, IEnumerable {
 		#region FIELDS
 		protected Dictionary<K, List<V>> dict;
 		private int listInitialCapacity;
@@ -37,6 +37,7 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 				return count;
 			}
 		}
+		public Dictionary<K, List<V>>.KeyCollection Keys => dict.Keys;
 		#endregion
 
 		public ListDictionary(int dictionaryInitialCapacity = 0, int listInitialCapacity = 1) {
@@ -124,6 +125,14 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 
 		virtual public void ClearAll() {
 			dict.Clear();
+		}
+
+		public IEnumerator<KeyValuePair<K, List<V>>> GetEnumerator() {
+			return (dict as IEnumerable<KeyValuePair<K, List<V>>>).GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator() {
+			return dict.GetEnumerator();
 		}
 	}
 }
