@@ -102,6 +102,14 @@ namespace OneManEscapePlan.Common.Scripts.Utility {
 		protected void SetDirty(UnityEngine.Object obj) {
 			EditorUtility.SetDirty(obj);
 		}
+
+		protected string TextField(string label, string value) {
+			return EditorGUILayout.TextField(label, value);
+		}
+		
+		protected string TextArea(string text) {
+			return EditorGUILayout.TextArea(text);
+		}
 	}
 #endif
 }
