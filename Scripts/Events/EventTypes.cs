@@ -26,6 +26,8 @@ namespace OneManEscapePlan.Common.Scripts.Events {
 	public class ByteEvent : UnityEvent<byte> { }
 	[Serializable]
 	public class StringEvent : UnityEvent<string> { }
+	[Serializable]
+	public class BoolEvent : UnityEvent<bool> { }
 
 	//Unity types
 	[Serializable]
