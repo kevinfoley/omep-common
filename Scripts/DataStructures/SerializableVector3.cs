@@ -13,6 +13,10 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 	/// A serializable structure that represents the same data as a Vector3, with implicit conversion
 	/// to and from Vector3.
 	/// </summary>
+	/// <remarks>
+	/// Unity's Vector3 is already serializable. I probably made this struct for a specific reason,
+	/// but I can't remember why...
+	/// </remarks>
 	[System.Serializable]
 	public struct SerializableVector3 {
 		[SerializeField] private float _x;
