@@ -28,5 +28,36 @@ namespace OneManEscapePlan.Common.Scripts.DataStructures {
 
 		public static implicit operator DateTime(SerializableDateTime date) => new DateTime(date.Ticks);
 		public static implicit operator SerializableDateTime(DateTime date) => new SerializableDateTime(date.Ticks);
+		public static bool operator ==(SerializableDateTime date1, SerializableDateTime date2) => date1.Ticks == date2.Ticks;
+		public static bool operator !=(SerializableDateTime date1, SerializableDateTime date2) => date1.Ticks != date2.Ticks;
+		public static bool operator >(SerializableDateTime date1, SerializableDateTime date2) => date1.Ticks > date2.Ticks;
+		public static bool operator >=(SerializableDateTime date1, SerializableDateTime date2) => date1.Ticks >= date2.Ticks;
+		public static bool operator <(SerializableDateTime date1, SerializableDateTime date2) => date1.Ticks < date2.Ticks;
+		public static bool operator <=(SerializableDateTime date1, SerializableDateTime date2) => date1.Ticks <= date2.Ticks;
+
+		public override bool Equals(object obj) {
+			return obj is SerializableDateTime time &&
+				   ticks == time.ticks;
+		}
+
+		public override int GetHashCode() {
+			return HashCode.Combine(ticks);
+		}
+
+		public override string ToString() {
+			return ((DateTime)this).ToString();
+		}
+		
+		public string ToString(string format) {
+			return ((DateTime)this).ToString(format);
+		}
+		
+		public string ToString(IFormatProvider formatProvider) {
+			return ((DateTime)this).ToString(formatProvider);
+		}
+		
+		public string ToString(string format, IFormatProvider formatProvider) {
+			return ((DateTime)this).ToString(format, formatProvider);
+		}
 	}
 }
