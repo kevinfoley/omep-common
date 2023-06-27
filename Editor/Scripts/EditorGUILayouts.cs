@@ -13,12 +13,13 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 	/// </summary>
 	/// <example>
 	/// <code>
-	///	using (var layout = new HorizontalGUILayout("box")) {
+	///	using (var layout = new EditorGUILayout.HorizontalScope("box")) {
 	///		useDelay = EditorGUILayout.Toggle("Use delay", useDelay);
 	///		if (useDelay) delay = EditorGUILayout.FloatField(delay);
 	///	}
 	/// </code>
 	/// </example>
+	[Obsolete("Use UnityEditor.EditorGUILayout.HorizontalScope instead")]
 	public class HorizontalGUILayout : IDisposable {
 		public HorizontalGUILayout() {
 			EditorGUILayout.BeginHorizontal();
@@ -44,12 +45,13 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 	/// </summary>
 	/// <example>
 	/// <code>
-	///	using (var layout = new VerticalGUILayout("box)) {
+	///	using (var layout = new EditorGUILayout.VerticalScope("box)) {
 	///		name = EditorGUILayout.TextField("Name", name);
 	///		hp = EditorGUILayout.IntSlider("HP", hp, 0, 100);
 	///	}
 	/// </code>
 	/// </example>
+	[Obsolete("Use UnityEditor.EditorGUILayout.VerticalScope instead")]
 	public class VerticalGUILayout : IDisposable {
 		public VerticalGUILayout() {
 			EditorGUILayout.BeginVertical();
