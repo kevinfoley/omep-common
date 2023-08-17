@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+/// ©2021 Kevin Foley.
+/// See accompanying license file.
+
 using NUnit.Framework;
 using OneManEscapePlan.Common.Scripts.DataStructures;
-using UnityEngine;
-using UnityEngine.TestTools;
 
-namespace Tests {
+namespace OneManEscapePlan.Common.Tests {
 	public class AngleRangeTests {
 		[Test]
 		public void General() {

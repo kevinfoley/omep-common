@@ -1,14 +1,10 @@
 ﻿/// ©2021 Kevin Foley. 
 /// See accompanying license file.
 
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using OneManEscapePlan.Common.Scripts.DataStructures;
-using UnityEngine;
-using UnityEngine.TestTools;
 
-namespace Tests {
+namespace OneManEscapePlan.Common.Tests {
 	public class TimeSpanFTests {
 		[Test]
 		public void Comparators() {
