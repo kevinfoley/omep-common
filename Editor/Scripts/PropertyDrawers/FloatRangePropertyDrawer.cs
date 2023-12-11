@@ -12,6 +12,7 @@ using UnityEngine.Events;
 namespace OneManEscapePlan.Common.Scripts.Editor {
 
 	[CustomPropertyDrawer(typeof(FloatRange))]
+	[CustomPropertyDrawer(typeof(FloatRangeValue))]
 	public class FloatRangePropertyDrawer : PropertyDrawer {
 
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
