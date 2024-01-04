@@ -2,12 +2,8 @@
 /// See accompanying license file.
 
 using OneManEscapePlan.Common.Scripts.DataStructures;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Events;
 
 namespace OneManEscapePlan.Common.Scripts.Editor {
 
@@ -30,7 +26,7 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 			if (sizeProperty.floatValue < 0) GUI.backgroundColor = Color.red;
 
 			float defaultLabelWidth = EditorGUIUtility.labelWidth;
-			EditorGUIUtility.labelWidth = 42;
+			EditorGUIUtility.labelWidth = 35;
 
 			Rect rect = position;
 			if (property.isExpanded) rect.height /= 2f;
@@ -40,22 +36,24 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 			label.text += $":  {min.ToString180()} - {max.ToString180()}";
 			property.isExpanded = EditorGUI.Foldout(rect, property.isExpanded, label);
 			if (property.isExpanded) {
-				int defaultIndentLevel = EditorGUI.indentLevel;
-				int indent = (defaultIndentLevel + 1) * 10;
+				// We manually indent because EditorGUI.indentLevel doesn't work well for
+				// multiple fields on one line.
+				int previousIndentLevel = EditorGUI.indentLevel;
+				int indent = (previousIndentLevel + 1) * 15;
 				EditorGUI.indentLevel = 0;
 
 				rect.y += rect.height;
-				rect.width = (rect.width - indent - 5) / 3f;
+				rect.width = (rect.width - indent - 8) / 3f;
 				rect.x += indent;
 
 				minProperty.floatValue = EditorGUI.FloatField(rect, "Start", minProperty.floatValue);
-				rect.x += rect.width + 5;
+				rect.x += rect.width + 4;
 				float maxF = EditorGUI.FloatField(rect, "End", minProperty.floatValue + sizeProperty.floatValue);
 				sizeProperty.floatValue = maxF - minProperty.floatValue;
-				rect.x += rect.width + 5;
+				rect.x += rect.width + 4;
 				sizeProperty.floatValue = EditorGUI.FloatField(rect, "Size", sizeProperty.floatValue);
 
-				EditorGUI.indentLevel = defaultIndentLevel;
+				EditorGUI.indentLevel = previousIndentLevel;
 			}
 
 			GUI.backgroundColor = defaultBackgroundColor;

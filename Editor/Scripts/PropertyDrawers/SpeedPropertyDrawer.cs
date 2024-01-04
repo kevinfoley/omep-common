@@ -2,12 +2,8 @@
 /// See accompanying license file.
 
 using OneManEscapePlan.Common.Scripts.DataStructures;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Events;
 
 namespace OneManEscapePlan.Common.Scripts.Editor {
 
@@ -36,8 +32,10 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 
 			property.isExpanded = EditorGUI.Foldout(rect, property.isExpanded, label);
 			if (property.isExpanded) {
-				int defaultIndentLevel = EditorGUI.indentLevel;
-				int indent = (defaultIndentLevel + 1) * 10;
+				// We manually indent because EditorGUI.indentLevel doesn't work well for
+				// multiple fields on one line.
+				int previousIndentLevel = EditorGUI.indentLevel;
+				int indent = (previousIndentLevel + 1) * 15;
 				EditorGUI.indentLevel = 0;
 
 				rect.y += rect.height;
@@ -63,7 +61,7 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 					metersPerSecondProperty.floatValue = newSpeed.MetersPerSecond;
 				}
 
-				EditorGUI.indentLevel = defaultIndentLevel;
+				EditorGUI.indentLevel = previousIndentLevel;
 			}
 
 			EditorGUIUtility.labelWidth = defaultLabelWidth;

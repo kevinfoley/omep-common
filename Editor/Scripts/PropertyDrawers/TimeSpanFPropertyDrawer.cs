@@ -2,12 +2,8 @@
 /// See accompanying license file.
 
 using OneManEscapePlan.Common.Scripts.DataStructures;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.Events;
 
 namespace OneManEscapePlan.Common.Scripts.Editor {
 
@@ -35,27 +31,59 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 
 			property.isExpanded = EditorGUI.Foldout(rect, property.isExpanded, label);
 			if (property.isExpanded) {
-				EditorGUIUtility.labelWidth = 45;
+				bool isWide = rect.width > 225;
+
+				// We manually indent because EditorGUI.indentLevel doesn't work well for
+				// multiple fields on one line.
+				int previousIndentLevel = EditorGUI.indentLevel;
+				int indent = (previousIndentLevel + 1) * 15;
+				EditorGUI.indentLevel = 0;
+
 				rect.y += rect.height;
-				rect.width = (rect.width - 18) / 3f - 8;
-				rect.x += 10;
+				rect.x += indent;
+				rect.width -= indent;
 
-				int hours = EditorGUI.IntField(rect, "Hours", timeSpan.Hours);
+				string hoursLabel;
+				string minutesLabel;
+				string secondsLabel;
+				if (isWide) {
+					hoursLabel = "Hours";
+					minutesLabel = "Minutes";
+					secondsLabel = "Seconds";
+				} else {
+					hoursLabel = "H";
+					minutesLabel = "M";
+					secondsLabel = "S";
+				}
+				float hoursLabelWidth = EditorStyles.label.CalcSize(new GUIContent(hoursLabel)).x;
+				float minutesLabelWidth = EditorStyles.label.CalcSize(new GUIContent(minutesLabel)).x;
+				float secondsLabelWidth = EditorStyles.label.CalcSize(new GUIContent(secondsLabel)).x;
 
-				EditorGUIUtility.labelWidth = 50;
+				float availableSpace = (rect.width - hoursLabelWidth - minutesLabelWidth - secondsLabelWidth - 8);
+				float fieldWidth = availableSpace / 3f;
+
+				EditorGUIUtility.labelWidth = hoursLabelWidth;
+				rect.width = fieldWidth + hoursLabelWidth;
+				int hours = EditorGUI.IntField(rect, hoursLabel, timeSpan.Hours);
+
 				rect.x += rect.width + 4;
-				rect.width += 4;
-				int minutes = EditorGUI.IntField(rect, "Minutes", timeSpan.Minutes);
+				rect.width = fieldWidth + minutesLabelWidth;
 
-				EditorGUIUtility.labelWidth = 55;
+				EditorGUIUtility.labelWidth = minutesLabelWidth;
+				int minutes = EditorGUI.IntField(rect, minutesLabel, timeSpan.Minutes);
+
 				rect.x += rect.width + 4;
-				rect.width += 16;
-				float seconds = EditorGUI.FloatField(rect, "Seconds", timeSpan.Seconds);
+				rect.width = fieldWidth + secondsLabelWidth;
+
+				EditorGUIUtility.labelWidth = secondsLabelWidth;
+				float seconds = EditorGUI.FloatField(rect, secondsLabel, timeSpan.Seconds);
 
 				TimeSpanF newTimeSpan = new TimeSpanF(hours, minutes, seconds);
 				if (newTimeSpan != timeSpan) {
 					secondsProperty.floatValue = newTimeSpan.TotalSeconds;
 				}
+
+				EditorGUI.indentLevel = previousIndentLevel;
 			}
 
 			EditorGUIUtility.labelWidth = defaultLabelWidth;

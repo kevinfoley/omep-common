@@ -30,7 +30,7 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 			if (maxProperty.intValue < minProperty.intValue) GUI.backgroundColor = Color.red;
 
 			float defaultLabelWidth = EditorGUIUtility.labelWidth;
-			EditorGUIUtility.labelWidth = 50;
+			EditorGUIUtility.labelWidth = 40;
 
 			Rect rect = position;
 			if (property.isExpanded) rect.height /= 2f;
@@ -38,8 +38,10 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 			label.text += ":  " + minProperty.intValue + " - " + maxProperty.intValue;
 			property.isExpanded = EditorGUI.Foldout(rect, property.isExpanded, label);
 			if (property.isExpanded) {
-				int defaultIndentLevel = EditorGUI.indentLevel;
-				int indent = (defaultIndentLevel + 1) * 10;
+				// We manually indent because EditorGUI.indentLevel doesn't work well for
+				// multiple fields on one line.
+				int previousIndentLevel = EditorGUI.indentLevel;
+				int indent = (previousIndentLevel + 1) * 15;
 				EditorGUI.indentLevel = 0;
 
 				rect.y += rect.height;
@@ -50,7 +52,7 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 				rect.x += rect.width + 5;
 				maxProperty.intValue = EditorGUI.IntField(rect, "Max", maxProperty.intValue);
 
-				EditorGUI.indentLevel = defaultIndentLevel;
+				EditorGUI.indentLevel = previousIndentLevel;
 			}
 
 			GUI.backgroundColor = defaultBackgroundColor;
