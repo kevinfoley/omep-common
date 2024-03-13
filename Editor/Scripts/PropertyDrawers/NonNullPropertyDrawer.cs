@@ -36,6 +36,9 @@ namespace OneManEscapePlan.Common.Scripts.Editor {
 		}
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+			//NOTE: Addressables asset references (e.g. AssetReferenceT) are not supported,
+			//because EditorGUI.PropertyField() won't use their custom property drawers.
+
 			Color defaultBackgroundColor = GUI.backgroundColor;
 			if (property.propertyType == SerializedPropertyType.ObjectReference) {
 				if (property.objectReferenceValue == null) {
