@@ -1,4 +1,4 @@
-﻿/// ©2018 - 2022 Kevin Foley.
+﻿/// ©2018 - 2024 Kevin Foley.
 /// See accompanying license file.
 
 using System;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Events;
 
 /// <summary>
@@ -65,7 +66,7 @@ public static class ExtensionMethods {
 
 	#region GAMEOBJECTS
 	/// <summary>
-	/// Check if we are facing the given position, within the specified tolerance
+	/// Check if we are facing the given position, within the specified tolerance.
 	/// </summary>
 	/// <param name="target"></param>
 	/// <param name="tolerance">Maximum angle in degrees that is considered valid</param>
@@ -77,7 +78,7 @@ public static class ExtensionMethods {
 	}
 
 	/// <summary>
-	/// Rotate the given number of degrees towards the given position
+	/// Rotate the given number of degrees towards the given position.
 	/// </summary>
 	/// <param name="target">A position in world coordinates</param>
 	/// <param name="degrees">We will rotate up to this many degrees towards the target</param>
@@ -92,7 +93,7 @@ public static class ExtensionMethods {
 	}
 
 	/// <summary>
-	/// Get the given component type; it will be added if not already present on this GameObject
+	/// Get the given component type; it will be added if not already present on this GameObject.
 	/// </summary>
 	public static T GetOrAddComponent<T>(this GameObject go) where T : Component {
 		T component = go.GetComponent<T>();
@@ -101,14 +102,68 @@ public static class ExtensionMethods {
 	}
 
 	/// <summary>
-	/// Get the given component type; it will be added if not already present on this GameObject
+	/// Get the given component type; it will be added if not already present on this GameObject.
 	/// </summary>
 	public static T GetOrAddComponent<T>(this Component co) where T : Component {
 		return GetOrAddComponent<T>(co.gameObject);
 	}
 
 	/// <summary>
-	/// If the given reference is null, try to find it on this GameObject
+	/// If the given reference is null, try to find it on this GameObject or its children. If
+	/// the component is not found, add it to a child with the given <c>containerName</c>. If
+	/// the container does not exist, it will be created.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="go"></param>
+	/// <param name="component"></param>
+	/// <param name="containerName"></param>
+	public static void FindOrAddChildComponent<T>(this GameObject go, ref T component, string containerName) where T : Component {
+		Assert.IsNotNull(go);
+		Assert.IsFalse(string.IsNullOrWhiteSpace(containerName));
+
+		go.transform.FindComponentInChildren(ref component);
+
+		if (component == null) {
+			Transform container = go.transform.Find(containerName);
+			if (container == null) {
+				GameObject containerGO = new GameObject(containerName);
+				container = containerGO.transform;
+				container.SetParent(go.transform, false);
+			}
+
+			component = container.gameObject.AddComponent<T>();
+		}
+	}
+
+	/// <summary>
+	/// If the given reference is null, try to find it on this GameObject or its children. If
+	/// the component is not found, add it to a child with the given <c>containerName</c>. If
+	/// the container does not exist, it will be created.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="co"></param>
+	/// <param name="component"></param>
+	/// <param name="containerName"></param>
+	public static void FindOrAddChildComponent<T>(this Component co, ref T component, string containerName) where T : Component {
+		Assert.IsNotNull(co);
+		Assert.IsFalse(string.IsNullOrWhiteSpace(containerName));
+
+		co.transform.FindComponentInChildren(ref component);
+
+		if (component == null) {
+			Transform container = co.transform.Find(containerName);
+			if (container == null) {
+				GameObject containerGO = new GameObject(containerName);
+				container = containerGO.transform;
+				container.SetParent(co.transform, false);
+			}
+
+			component = container.gameObject.AddComponent<T>();
+		}
+	}
+
+	/// <summary>
+	/// If the given reference is null, try to find it on this GameObject.
 	/// </summary>
 	/// <typeparam name="T">Type of component to look for</typeparam>
 	/// <param name="co"></param>
@@ -120,7 +175,7 @@ public static class ExtensionMethods {
 	}
 
 	/// <summary>
-	/// If the given reference is null, try to find it on this GameObject or its children
+	/// If the given reference is null, try to find it on this GameObject or its children.
 	/// </summary>
 	/// <typeparam name="T">Type of component to look for</typeparam>
 	/// <param name="co"></param>
