@@ -60,4 +60,6 @@ namespace OneManEscapePlan.Common.Scripts.Events {
 	public class MeshEvent : UnityEvent<Mesh> { }
 	[Serializable]
 	public class MaterialEvent : UnityEvent<Material> { }
+	[Serializable]
+	public class ColorEvent : UnityEvent<Color> { }
 }
