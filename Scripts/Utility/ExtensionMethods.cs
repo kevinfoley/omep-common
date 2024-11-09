@@ -90,6 +90,21 @@ public static class ExtensionMethods {
 			//rotate towards the target angle
 			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, degrees);
 		}
+	}	
+	
+	/// <summary>
+	/// Rotate the given number of degrees towards the given position.
+	/// </summary>
+	/// <param name="target">A position in world coordinates</param>
+	/// <param name="degrees">We will rotate up to this many degrees towards the target</param>
+	/// <param name="minDistance">If we are closer than this distance, don't rotate</param>
+	public static void RotateTowards(this Rigidbody rigidbody, Vector3 target, float degrees, float minDistance = .15f) {
+		if (Vector3.Distance(rigidbody.position, target) > minDistance) {
+			// Calculate the angle that would be looking directly at the target
+			Quaternion targetRotation = Quaternion.LookRotation(target - rigidbody.position);
+			// Rotate towards the target angle.
+			rigidbody.rotation = Quaternion.RotateTowards(rigidbody.rotation, targetRotation, degrees);
+		}
 	}
 
 	/// <summary>
