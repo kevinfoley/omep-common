@@ -15,7 +15,7 @@ public static class OMEPLogger {
 		if (context == null) {
 			return $"{caller}({args}) {message}";
 		} else {
-			return $"[{context.GetType()}] {caller}({args}) {message}";
+			return $"[{context.GetType().Name}] {caller}({args}) {message}";
 		}
 	}
 
