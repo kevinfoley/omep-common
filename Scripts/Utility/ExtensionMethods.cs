@@ -41,11 +41,12 @@ namespace OneManEscapePlan.Common {
 			return UnityEngine.Random.Range(0, array.Length);
 		}
 
-		public static V GetValueOrDefault<K, V>(this IDictionary<K, V> dict, K key) {
-			V value = default(V);
-			dict.TryGetValue(key, out value);
-			return value;
-		}
+		// Use the version in System.Collections instead.
+		//public static V GetValueOrDefault<K, V>(this IDictionary<K, V> dict, K key) {
+		//	V value = default(V);
+		//	dict.TryGetValue(key, out value);
+		//	return value;
+		//}
 
 		/// <summary>
 		/// Whether the list contains duplicates (ignoring null entries)
