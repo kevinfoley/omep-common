@@ -8,6 +8,7 @@ namespace OneManEscapePlan.Common.Scripts {
 		GameObject gameObject { get; }
 		Transform transform { get; }
 		bool enabled { get; set; }
+		bool isActiveAndEnabled { get; }
 		T GetComponent<T>();
 		T GetComponentInParent<T>();
 		T GetComponentInChildren<T>();
