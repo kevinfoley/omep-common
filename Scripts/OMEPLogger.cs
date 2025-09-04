@@ -36,11 +36,11 @@ public static class OMEPLogger {
 	}
 
 	public static void LogWarning(Object context, string message, string args = null, [CallerMemberName] string caller = null) {
-		Debug.Log(Format(context, message, args, caller), context);
+		Debug.LogWarning(Format(context, message, args, caller), context);
 	}
 	
 	public static void LogWarning(object context, string message, string args = null, [CallerMemberName] string caller = null) {
-		Debug.Log(Format(context, message, args, caller));
+		Debug.LogWarning(Format(context, message, args, caller));
 	}
 	
 	public static void LogError(Object context, string message, string args = null, [CallerMemberName] string caller = null) {
